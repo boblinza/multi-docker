@@ -1,4 +1,6 @@
 sudo: required
+language: generic
+
 services:
   - docker
 
@@ -11,11 +13,12 @@ script:
 after_success:
   - docker build -t boblinza/multi-client ./client
   - docker build -t boblinza/multi-nginx ./nginx
-  - docker build -t boblinza/multi-server ./server 
+  - docker build -t boblinza/multi-server ./server
   - docker build -t boblinza/multi-worker ./worker
+  # Log in to the docker CLI
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
-  - docker push boblinza/muiti-client
-  - docker push boblinza/muiti-nginx
-  - docker push boblinza/muiti-server
-  - docker push boblinza/muiti-worker
-
+  # Take those images and push them to docker hub
+  - docker push boblinza/multi-client
+  - docker push boblinza/multi-nginx
+  - docker push boblinza/multi-server
+  - docker push boblinza/multi-worker
