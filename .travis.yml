@@ -1,0 +1,21 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t boblinza/react-test -f .client/Dockerfile.den ./client
+
+script:
+  - docker run -e CI=true boblinza/react-test npm test
+
+after_success:
+  - docker build -t boblinza/multi-client ./client
+  - docker build -t boblinza/multi-nginx ./nginx
+  - docker build -t boblinza/multi-server ./server 
+  - docker build -t boblinza/multi-worker ./worker
+  - echo "$DOCKER_PASSWORD" | docker login -u "DOCKER_ID" --password-stdin
+  - docker push boblinza/muiti-client
+  - docker push boblinza/muiti-nginx
+  - docker push boblinza/muiti-server
+  - docker push boblinza/muiti-worker
+
