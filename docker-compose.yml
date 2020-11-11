@@ -24,7 +24,6 @@ services:
       - /app/node_modules
       - ./server:/app
     environment:
-      - CHOKADIR_usepolling=true
       - REDIS_HOST=redis
       - REDIS_PORT=6379
       - PGUSER=postgres
@@ -32,7 +31,6 @@ services:
       - PGDATABASE=postgres
       - PGPASSWORD=postgres_password
       - PGPORT=5432
-
   client:
     stdin_open: true
     build:
@@ -41,8 +39,6 @@ services:
     volumes:
       - /app/node_modules
       - ./client:/app
-    environment:
-      - CHOKADIR_usepolling=true
   worker:
     build:
       dockerfile: Dockerfile.dev
@@ -51,6 +47,5 @@ services:
       - /app/node_modules
       - ./worker:/app
     environment:
-      - CHOKADIR_usepolling=true
       - REDIS_HOST=redis
       - REDIS_PORT=6379
